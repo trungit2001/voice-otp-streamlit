@@ -49,16 +49,19 @@ def read_code():
 
     return code
 
+
 def check_before_segment():
     if os.path.exists(OUTPUT_SEGMENT_PATH):
         shutil.rmtree(OUTPUT_SEGMENT_PATH)
         os.makedirs(OUTPUT_SEGMENT_PATH)
+
 
 def check_after_segment():
     if len(os.listdir(OUTPUT_SEGMENT_PATH)) == 4:
         st.success('Segmented successfully!')
     else:
         st.error('Segmented failed. Retry!')
+
 
 def main():
     st.title('Welcome to Voice OTP app!')
@@ -87,20 +90,20 @@ def main():
         check_after_segment()
 
     if btn_record:
-        st.write('Recording...')
-        st.info('Press q button on your keyboard to stop recording!')
-        
-        if os.path.exists(OUTPUT_WAVE_PATH):
-            os.remove(OUTPUT_WAVE_PATH)
+        with st.spinner('Recording...'):
+            st.info('Press q button on your keyboard to stop recording!')
+            
+            if os.path.exists(OUTPUT_WAVE_PATH):
+                os.remove(OUTPUT_WAVE_PATH)
 
-        status = recorder(fname=OUTPUT_WAVE_PATH)
+            status = recorder(fname=OUTPUT_WAVE_PATH)
 
-        if status:
-            check_before_segment()
-            segment(OUTPUT_WAVE_PATH, OUTPUT_SEGMENT_PATH)
-            check_after_segment()
-        else:
-            st.error('Recorded failed. Retry!')
+            if status:
+                check_before_segment()
+                segment(OUTPUT_WAVE_PATH, OUTPUT_SEGMENT_PATH)
+                check_after_segment()
+            else:
+                st.error('Recorded failed. Retry!')
     
     st.markdown('3. Wait for the model to predict the result')
     st.write('Name:')
