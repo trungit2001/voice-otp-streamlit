@@ -30,3 +30,5 @@ def segment(inpath, outpath):
             bitrate = "192k",
             format = "wav"
         )
+    
+    return True
