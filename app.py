@@ -60,7 +60,7 @@ MODEL_CLASSIFY_NUMBER_PATH = os.path.join(
 def check_before_segment():
     if os.path.exists(OUTPUT_SEGMENT_PATH):
         shutil.rmtree(OUTPUT_SEGMENT_PATH)
-        os.makedirs(OUTPUT_SEGMENT_PATH)
+    os.makedirs(OUTPUT_SEGMENT_PATH)
 
 
 def check_after_segment():
@@ -107,8 +107,6 @@ def check_otp():
         tmp_nums.append(call_model_number(os.path.join(OUTPUT_SEGMENT_PATH, file)))
     
     pred_otp = ''.join(str(i) for i in tmp_nums)
-    print(pred_otp)
-    
     st.text(f'OTP predict: {pred_otp}')
 
     if otp_pass == pred_otp:
