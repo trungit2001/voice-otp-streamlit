@@ -5,10 +5,16 @@ import streamlit as st
 
 from utils.record import recorder
 from utils.segments import segment, convert_to_wav
+from utils.utils import (
+    load_model,
+    load_decoder,
+    extract_feature,
+    predict_speaker
+)
 
 
 # const
-WORKING_DIR = 'D:/Projects/streamlit'
+WORKING_DIR = os.getcwd()
 NUMS = [1, 2, 3, 4, 5]
 SECRET_CODE_PATH = os.path.join(
     os.path.expanduser('~'), 
@@ -25,6 +31,14 @@ OUTPUT_SEGMENT_PATH = os.path.join(
 SAVE_FILE_PATH = os.path.join(
     WORKING_DIR + '/audio/files',
     'upload.wav'
+)
+MODEL_CLASSIFY_SPEAKER_PATH = os.path.join(
+    WORKING_DIR,
+    'models/speaker_classification.h5'
+)
+DECODER_PATH = os.path.join(
+    WORKING_DIR,
+    'features/decoder.pkl'
 )
 
 
@@ -57,10 +71,12 @@ def check_before_segment():
 
 
 def check_after_segment():
-    if len(os.listdir(OUTPUT_SEGMENT_PATH)) == 4:
+    if len(os.listdir(OUTPUT_SEGMENT_PATH)) == 1:
         st.success('Segmented successfully!')
+        return True
     else:
         st.error('Segmented failed. Retry!')
+        return False
 
 
 def main():
@@ -87,7 +103,22 @@ def main():
         check_before_segment()
         convert_to_wav(upload_file, SAVE_FILE_PATH)
         segment(SAVE_FILE_PATH, OUTPUT_SEGMENT_PATH)
-        check_after_segment()
+        if check_after_segment():
+            st.markdown('3. Wait for the model to predict the result')
+            with st.spinner('Predicting...'):
+                model_classify_speaker = load_model(MODEL_CLASSIFY_SPEAKER_PATH)
+                decoder = load_decoder(DECODER_PATH)
+
+                fv = extract_feature(os.path.join(OUTPUT_SEGMENT_PATH, 'segment_0.wav'))
+                speaker = predict_speaker(
+                    model_classify_speaker,
+                    decoder,
+                    fv
+                )
+                
+                if speaker:
+                    st.text(f'Speaker: {speaker}')
+
 
     if btn_record:
         with st.spinner('Recording...'):
@@ -101,13 +132,25 @@ def main():
             if status:
                 check_before_segment()
                 segment(OUTPUT_WAVE_PATH, OUTPUT_SEGMENT_PATH)
-                check_after_segment()
+                
+                if check_after_segment():
+                    st.markdown('3. Wait for the model to predict the result')
+                    with st.spinner('Predicting...'):
+                        model_classify_speaker = load_model(MODEL_CLASSIFY_SPEAKER_PATH)
+                        decoder = load_decoder(DECODER_PATH)
+
+                        fv = extract_feature(os.path.join(OUTPUT_SEGMENT_PATH, 'segment_0.wav'))
+                        speaker = predict_speaker(
+                            model_classify_speaker,
+                            decoder,
+                            fv
+                        )
+                        
+                        if speaker:
+                            st.text(f'Name: {speaker}')
             else:
                 st.error('Recorded failed. Retry!')
     
-    st.markdown('3. Wait for the model to predict the result')
-    st.write('Name:')
-
 
 if __name__ == '__main__':
     main()
