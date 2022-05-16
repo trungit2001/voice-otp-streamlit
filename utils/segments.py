@@ -15,7 +15,7 @@ def segment(inpath, outpath):
 
     chunks = split_on_silence (
         sound,
-        min_silence_len = 500,
+        min_silence_len = 300,
         silence_thresh = sound.dBFS - 16,
         keep_silence = 250,
     )
