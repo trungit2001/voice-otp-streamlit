@@ -24,6 +24,7 @@ from utils.utils import (
 # const
 WORKING_DIR = os.getcwd()
 NUMS = [1, 2, 3, 4, 5]
+NUM_OF_PASS_CHAR = 4
 SECRET_CODE_PATH = os.path.join(
     os.path.expanduser('~'), 
     'secret_code.txt'
@@ -73,7 +74,7 @@ def check_before_segment():
 
 
 def check_after_segment():
-    if len(os.listdir(OUTPUT_SEGMENT_PATH)) == 4:
+    if len(os.listdir(OUTPUT_SEGMENT_PATH)) == NUM_OF_PASS_CHAR:
         st.success('Segmented successfully!')
         return True
     else:
@@ -135,7 +136,7 @@ def main():
         check_output_record()
         check_before_segment()
 
-        otp_pass = get_random_otp(NUMS, k=4)
+        otp_pass = get_random_otp(NUMS, k=NUM_OF_PASS_CHAR)
         write_code(otp_pass, SECRET_CODE_PATH)
         st.write('Your password is: ', otp_pass)
         st.info('Remember your password before you recording!')
