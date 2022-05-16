@@ -1,0 +1,1 @@
+Download model checkpoints from here: https://drive.google.com/drive/folders/152-WYCzFXY0jCgCi0Pd8979VOBTIxhcV?usp=sharing
