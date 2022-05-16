@@ -1,6 +1,5 @@
 import torchaudio
 import numpy as np
-import streamlit as st
 
 from pickle import load
 from keras import models
@@ -31,7 +30,10 @@ def compute_embedding(classifier, fname):
     return embeddings
 
 def extract_feature(path):
-    classifier = EncoderClassifier.from_hparams(source="speechbrain/spkrec-xvect-voxceleb")
+    classifier = EncoderClassifier.from_hparams(
+        source="speechbrain/spkrec-xvect-voxceleb",
+        savedir="tmp/xvect"
+    )
     feature_vector = compute_embedding(classifier, path)
     return feature_vector
 
