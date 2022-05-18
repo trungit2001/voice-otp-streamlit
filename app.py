@@ -112,15 +112,14 @@ def call_model():
     otp_pass = read_code(SECRET_CODE_PATH)
                     
     for file in os.listdir(OUTPUT_SEGMENT_PATH):
-        tmp_nums.append(call_model_number(os.path.join(OUTPUT_SEGMENT_PATH, file)))
+        # tmp_nums.append(call_model_number(os.path.join(OUTPUT_SEGMENT_PATH, file)))
         speaker.append(call_model_speaker(os.path.join(OUTPUT_SEGMENT_PATH, file)))
 
-    pred_otp = ''.join(str(i) for i in tmp_nums)
+    # pred_otp = ''.join(str(i) for i in tmp_nums)
     pred_speaker = get_speaker(dict(Counter(speaker)))
 
-    if otp_pass == pred_otp and pred_speaker:
+    if pred_speaker:
         st.text(f'Speaker: {pred_speaker}')
-        st.text(f'OTP predict: {pred_otp}')
         st.success('You passed!')
     else:
         st.error("Can't authenticate. Try again!")
