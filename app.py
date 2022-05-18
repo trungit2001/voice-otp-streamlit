@@ -1,6 +1,7 @@
 import os
 import shutil
 import streamlit as st
+import tensorflow as tf
 
 from collections import Counter
 from utils.record import recorder
@@ -17,6 +18,7 @@ from utils.utils import (
     predict_speaker
 )
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 # const
 WORKING_DIR = os.getcwd()
