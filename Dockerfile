@@ -1,6 +1,6 @@
 FROM python:3.8
 
-RUN apk -yq update
+RUN apt-get -yq update
 RUN apt-get -yq upgrade
 RUN apt-get -yq autoremove
 RUN apt-get -yq install gcc
