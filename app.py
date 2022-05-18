@@ -117,10 +117,10 @@ def call_model():
 
     pred_otp = ''.join(str(i) for i in tmp_nums)
     pred_speaker = get_speaker(dict(Counter(speaker)))
+    st.text(f'Speaker: {pred_speaker}')
+    st.text(f'OTP predict: {pred_otp}')
 
     if otp_pass == pred_otp and pred_speaker:
-        st.text(f'Speaker: {pred_speaker}')
-        st.text(f'OTP predict: {pred_otp}')
         st.success('You passed!')
     else:
         st.error("Can't authenticate. Try again!")
