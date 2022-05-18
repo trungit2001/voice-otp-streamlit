@@ -1,8 +1,5 @@
 import os
 import shutil
-import random
-import operator
-from this import d
 import streamlit as st
 
 from collections import Counter
@@ -43,7 +40,7 @@ SAVE_FILE_PATH = os.path.join(
 )
 MODEL_CLASSIFY_SPEAKER_PATH = os.path.join(
     WORKING_DIR,
-    'models/speaker_classification.h5'
+    'models/weights/speaker_classification.h5'
 )
 DECODER_PATH = os.path.join(
     WORKING_DIR,
@@ -55,7 +52,7 @@ SPEAKER_DECODER_PATH = os.path.join(
 )
 MODEL_CLASSIFY_NUMBER_PATH = os.path.join(
     WORKING_DIR,
-    'models/number_classification.ckpt'
+    'models/weights/number_classification.ckpt'
 )
 loaded_model_pytorch = load_model_pytorch(MODEL_CLASSIFY_NUMBER_PATH)
 model_classify_speaker = load_model_tensor(MODEL_CLASSIFY_SPEAKER_PATH)

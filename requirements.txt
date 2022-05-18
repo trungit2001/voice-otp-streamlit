@@ -1,11 +1,11 @@
-streamlit==1.9.0
-pydub==0.25.1
-keyboard==0.13.5
+streamlit
+keyboard
+pydub
 speechbrain
 tensorflow
-keras
 pyaudio
 torchaudio
 sklearn
 sox
 SoundFile
+pytorch_lightning
